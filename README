@@ -1,0 +1,25 @@
+
+synap-tool
+
+** Info
+
+A tool for synapse files manipulation in neurosciences
+
+** compilation
+
+# fetch HighFive as submodule ( if not already done )
+git submodule update --recursive --init
+
+# configure, compile
+mkdir build; pushd build
+cmake ../
+make
+
+
+** Authors
+Adrien Devresse <adrien.devresse@epfl.ch>
+
+
+** License
+LGPLv2.1+
+
