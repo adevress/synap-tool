@@ -21,16 +21,18 @@ set(Boost_NO_BOOST_CMAKE TRUE)
 ## find dependencies
 find_package(Boost 1.41 REQUIRED COMPONENTS system)
 find_package(HDF5 REQUIRED)
+find_package(Threads)
 
-include_directories(SYSTEM ${Boost_INCLUDE_DIR} ${HDF5_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/highfive/include )
+include_directories(SYSTEM ${Boost_INCLUDE_DIR} ${HDF5_INCLUDE_DIRS} )
 
-add_definitions( -DH5_USE_BOOST -DMVD_VERSION_MAJOR=\"${VERSION_MAJOR}\" -DMVD_VERSION_MINOR=\"${VERSION_MINOR}\" )
+add_definitions( -std=c++11 -DH5_USE_BOOST )
 
 aux_source_directory(src SRC_LIST)
-add_executable(synap-tool ${SRC_LIST} ${MVD_HEADERS_BITS} ${MVD_HEADERS})
-target_link_libraries(mvd-tool ${HDF5_C_LIBRARIES} ${HDF5_HL_LIBRARIES})
+add_executable(synap-tool ${SRC_LIST})
+target_link_libraries(synap-tool ${HDF5_C_LIBRARIES} ${HDF5_HL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/mvd DESTINATION ${INCLUDE_INSTALL_DIR})
-install(TARGETS mvd-tool RUNTIME DESTINATION ${BIN_INSTALL_DIR})
+
+install(TARGETS synap-tool RUNTIME DESTINATION ${BIN_INSTALL_DIR})
 
 add_subdirectory(tests/unit)
