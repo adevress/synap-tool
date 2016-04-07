@@ -13,12 +13,15 @@ NRNv1Reader::NRNv1Reader(const std::string & nrnDir) :
 
 size_t NRNv1Reader::getTotalNbNeurons() const{
     if(_nbNeurons == 0){
-        std::vector<std::string> names = _nrn_summary.listObjectNames();
+        _nbNeurons = std::max<size_t>(_nrn_summary.getNumberObjects(),1) -1; // remove one due to /info
+
+        /* need to be optimized, too slow on large dataset
+         * std::vector<std::string> names = _nrn_summary.listObjectNames();
         _nbNeurons = std::count_if(names.begin(), names.end(), [](const std::string & str){
             if(str.size() > 0 && str[0] == 'a')
                 return true;
             return false;
-        });
+        });*/
     }
     return _nbNeurons;
 }
